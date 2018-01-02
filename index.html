@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Asynchronous HTML</title>
+        <script>
+            window.io = {};
+        </script>
+        <script src="/assets/js/io.js"></script>
+        <script src="/assets/js/io/dom.js"></script>
+        <script src="/assets/js/io/app.js"></script>
+        <script>
+            document.listen('loaded', function( event ){
+                var arguments = {};
+                var success = function( result ){
+                    console.log('successfully started IO XML Origin application...');
+                }
+                var error = function( error ){
+                    console.log('error starting IO XML Origin application. error', error);
+                }
+                window.io.app.run(arguments, success, error);
+            });
+        </script>
+    </head>
+    <body>
+        <div>
+            <h2>header h2</h2>
+            <p>paragraphg</p>
+        </div>
+        <footer>
+        </footer>
+    </body>
+</html>
