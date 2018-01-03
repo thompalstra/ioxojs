@@ -30,8 +30,53 @@ window['require'] = function( path ){
     xhr.open('GET', path, false);
     xhr.send();
     if( xhr.readyState == 4 ){
-        var exports = {};
-        eval(xhr.response);
-        return exports;
+        if( xhr.status == 200 ){
+            var exports = {};
+            eval(xhr.response);
+            return exports;
+        }
+    }
+}
+
+window.listeners = [];
+window.listener = {
+    add: function( obj ){
+        var eventSource = null;
+        if( obj.hasOwnProperty('url') ){
+            eventSource = new EventSource(obj.url);
+        }
+        if( obj.hasOwnProperty('onmessage') ){
+            eventSource.onmessage = obj.onmessage;
+        }
+        if( obj.hasOwnProperty('onopen') ){
+            eventSource.onopen = obj.onopen;
+        }
+        if( obj.hasOwnProperty('onerror') ){
+            eventSource.onerror = obj.onerror;
+        }
+    }
+}
+
+window.listener.add({
+    url: 'server.php',
+    onmessage: function( event ){
+        console.log( event );
+    },
+    onopen: function( event ){
+        console.log('open');
+    },
+    onerror: function( event ){
+        console.log( event );
+    }
+});
+
+
+
+Object.walk = function( obj, callable ){
+    for(var i in obj){
+        callable.apply(window, [obj[i], i]);
+         if( typeof obj[i] == 'object' ){
+             Object.walk.apply(window, [obj[i], callable])
+         }
     }
 }
