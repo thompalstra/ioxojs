@@ -1,6 +1,8 @@
-window.io.config = {
-    fn: function(){
-        console.log('derp');
-    },
-    derp: 'herp'
+exports.default = {
+    a: 'b',
+    number: 10000,
+    test: function(e){
+        alert('test!');
+    }
 };
+exports.derp = 'herp';

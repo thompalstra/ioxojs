@@ -1,15 +1,20 @@
-window.io = function( arg ){
-
+window['io'] = function( arg ){
+    if( typeof arg == 'function' ){
+        arg.call( this, null );
+    } else if( typeof arg == 'object' ){
+        for(var i in arg){
+            io[i] = arg[i];
+        }
+    }
 }
 
-var Extender = function(a){
-    this.list = a;
-
-    this.with = function( arg ){
+window['extend'] = function(){
+    var extend = {};
+    extend.list = arguments;
+    extend.with = function( arg ){
         for(var a in arg){
             for(b=0;b<this.list.length;b++){
                 if(this.list[b].prototype){
-                    console.log( this.list[b], a );
                     this.list[b].prototype[a] = arg[a];
                 } else {
                     this.list[b][a] = arg[a];
@@ -17,8 +22,16 @@ var Extender = function(a){
             }
         }
     }
+    return extend;
 }
 
-window.io.extend = function(){
-    return new Extender( arguments );
+window['require'] = function( path ){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', path, false);
+    xhr.send();
+    if( xhr.readyState == 4 ){
+        var exports = {};
+        eval(xhr.response);
+        return exports;
+    }
 }

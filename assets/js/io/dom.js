@@ -1,10 +1,14 @@
-window.io.dom = function( arg ){
+io.dom = function( arg ){}
 
-}
-
-window.io.extend(Element, Document).with({
-    find: function( query ){
+extend(Element, Document).with({
+    findAll: function( query ){
         return this.querySelectorAll( query );
+    },
+    findOne: function( query ){
+        return this.querySelector( query );
+    },
+    findById: function( query ){
+        return this.getElementById( query );
     },
     listen: function( a, b, c, d ){
         var events = a.split(' ');
@@ -27,6 +31,16 @@ window.io.extend(Element, Document).with({
         this.dispatchEvent(event);
     }
 });
+
+document.listen('click', 'h2', function(e){console.log('is clicked')});
+
+extend(HTMLCollection).with({
+    forEach: function( callable ){
+        for(i=0;i<this.length;i++){
+            callable.call( window, this[i] );
+        }
+    }
+})
 
 document.listen('DOMContentLoaded', function(e){
     document.dispatch( new CustomEvent('loaded', {
