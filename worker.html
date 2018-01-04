@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <title>Asynchronous HTML</title>
+    </head>
+    <body>
+        <select id='postlist'></select>
+        <div id='view'>
+
+        </div>
+        <div id='wrapper'>
+
+        </div>
+        <footer>
+        </footer>
+
+        <script>
+            var postWorker;
+            var postCommentWorker;
+            var wrapper = document.getElementById('wrapper');
+            var view = document.getElementById('view');
+
+            document.getElementById('postlist').addEventListener('input', function( event ){
+                getPostComments( this.value );
+            });
+
+            function getPosts(){
+
+                var workerArg = {};
+
+                if( typeof(postWorker) != 'undefined' ){
+                    postWorker.terminate();
+                    postWorker = undefined;
+                }
+
+                postWorker = new Worker('post-worker.js');
+                postWorker.postMessage( workerArg );
+                postWorker.onmessage = function( event ){
+                    var div = document.createElement('div');
+                    div.innerHTML = event.data;
+
+                    div.childNodes.forEach( function( el ){
+                        document.getElementById('postlist').appendChild( el.cloneNode(true) );
+                    } )
+
+                    document.getElementById('postlist').dispatchEvent( new CustomEvent('input', {
+                        cancelable: true,
+                        bubbles: true
+                    }) );
+                }
+            }
+            function getPostComments( postId ){
+
+                wrapper.innerHTML = "";
+                view.innerHTML = "";
+
+                console.log( view );
+
+                var workerArg = {
+                    postId: postId
+                };
+
+                if( typeof(postCommentWorker) != 'undefined' ){
+                    postCommentWorker.terminate();
+                    postCommentWorker = undefined;
+                }
+
+                postCommentWorker = new Worker('post-comment-worker.js');
+                postCommentWorker.postMessage( workerArg );
+                postCommentWorker.onmessage = function( event ){
+                    if( event.data.type == 'comment' ){
+                        wrapper.innerHTML += event.data.data;
+                    } else if( event.data.type == 'post' ){
+                        view.innerHTML += event.data.data;
+                    }
+                }
+            }
+            getPosts();
+        </script>
+    </body>
+</html>
