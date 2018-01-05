@@ -9,31 +9,7 @@
         <script src="/assets/js/io/app.js"></script>
         <script>
             document.listen('loaded', function( event ){
-                var arguments = {
-                    session: {
-                        initialize: function( ){
-                            console.log('init');
-                        },
-                        set: function( ){
-                            console.log('set');
-                        },
-                        get: function( ){
-                            console.log('get');
-                        },
-                        collection: {
-                            first: {
-                                second: {
-                                    third: {
-                                        almostFourth: "4.5",
-                                        fourth: function(e){
-                                            console.log('fourth');
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
+                var arguments = {};
                 var success = function( result ){
                     console.log('successfully started IO XML Origin application...');
                 }
@@ -51,5 +27,7 @@
         </div>
         <footer>
         </footer>
+        <script>
+        </script>
     </body>
 </html>
