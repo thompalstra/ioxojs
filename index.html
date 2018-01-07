@@ -1,33 +1,33 @@
 <html>
     <head>
         <title>Asynchronous HTML</title>
-        <script>
-            window.io = {};
-        </script>
+        <link rel="stylesheet" href="style/style.css"></link>
+
         <script src="/assets/js/io.js"></script>
         <script src="/assets/js/io/dom.js"></script>
         <script src="/assets/js/io/app.js"></script>
+
+        <script type="text/javascript" src="script/script.js"></script>
+
         <script>
             document.listen('loaded', function( event ){
                 var arguments = {};
-                var success = function( result ){
+                window.io.app.run(arguments, function( result ){
                     console.log('successfully started IO XML Origin application...');
-                }
-                var error = function( error ){
-                    console.log('error starting IO XML Origin application. error', error);
-                }
-                window.io.app.run(arguments, success, error);
+                    nav.load({
+                        layout: 'layout/main.html',
+                        view: 'view/index.html',
+                    }, function( res ){
+                        console.log('navigated!');
+                    }, function( err ){
+                        console.log('navigation aborted!');
+                    });
+                }, function( err ){
+                    console.log('error starting IO XML Origin application. error', err );
+                });
             });
         </script>
     </head>
     <body>
-        <div>
-            <h2 id='title'>header h2</h2>
-            <p id='paragraph'>paragraphg</p>
-        </div>
-        <footer>
-        </footer>
-        <script>
-        </script>
     </body>
 </html>

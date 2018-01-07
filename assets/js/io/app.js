@@ -10,5 +10,7 @@ extend(io.app).with({
         		item();
             }
         });
+
+        success.call( this, null );
     }
 });

@@ -19,7 +19,6 @@ window['extend'] = function(){
     extend.list = arguments;
     extend.with = function( arg ){
         for(var a in arg){
-
             for(b=0;b<this.list.length;b++){
                 if(
                     this.list[b].hasOwnProperty('prototype') &&
@@ -29,7 +28,6 @@ window['extend'] = function(){
                 ){
                     this.list[b].prototype[a] = arg[a];
                 } else {
-                    console.log(a);
                     this.list[b][a] = arg[a];
                 }
             }
@@ -51,8 +49,66 @@ window['require'] = function( path ){
     }
 }
 
-window.listeners = [];
-window.listener = {
+window['nav'] = function( arg ){}
+extend( nav ).with({
+    history: {
+        queue: [],
+        back: function(){
+            if( nav.history.queue.length > 1 ){
+                console.log('go bacjk');
+                var last = nav.history.queue.pop();
+                var previous = nav.history.queue.pop();
+
+                nav.load(previous.params, previous.success, previous.error);
+            }
+        },
+        forward: function( obj ){
+            nav.history.queue.push(obj);
+        }
+    },
+    load: function( params, success, error ){
+
+        if( typeof success == 'undefined' ){
+            success = function(){}
+        }
+
+        if( typeof error == 'undefined' ){
+            error = function(){}
+        }
+
+        var wrapper = document.createElement('wrapper');
+        var layout = wrapper.appendChild( document.createElement('layout') );
+        layout.load( params.layout, function( res ){
+            var content = this.findOne('content');
+            content.load( params.view, function(res){
+
+                wrapper.findAll('script').forEach( function( el ){
+                    eval( el.innerHTML );
+                } )
+
+                document.body.innerHTML = wrapper.innerHTML;
+                nav.history.forward({
+                    params: params,
+                    success: success,
+                    error: error
+                });
+
+                success.call( this, null );
+            }, function( err ){
+                error.call( this, err );
+            } );
+        }, function( err ){
+            error.call( this, err );
+        } );
+    },
+    clear: function(){
+        document.body.innerHTML = "";
+    }
+})
+
+window['listeners'] = [];
+window['listener'] = function( arg ){}
+extend( listener ).with({
     add: function( obj ){
         var eventSource = null;
         if( obj.hasOwnProperty('url') ){
@@ -70,31 +126,17 @@ window.listener = {
         return window.listeners.push( eventSource ) - 1;
     },
     remove: function( index ){
-        var listener = window.listeners[ index ];
-        console.log( window.listeners, listener );
-        if( typeof listener != 'undefined' ){
-            listener.close();
+        if( typeof window.listeners[ index ] != 'undefined' ){
+            window.listeners[ index ].close();
             window.listeners.splice( index, 1 );
-
             if( ENV_DEBUG ){
                 io.debug.error( new Error('closed listener at listeners index ' + index) );
             }
         }
     }
-}
+});
 
-// console.log( window.listener.add({
-//     url: 'server.php',
-//     onmessage: function( event ){
-//         if( ENV_DEBUG ){
-//             io.debug( 'received from server' );
-//         }
-//     },
-//     onopen: function(){},
-//     onerror: function(){}
-// }) );
-
-extend( window['io'] ).with({
+extend( io ).with({
     serialize: function( object ){
         var params = [];
         Object.walk( object, function( item, index ){

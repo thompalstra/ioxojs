@@ -17,7 +17,7 @@ extend(Element, Document).with({
         this.setAttribute( a, b );
     },
     setProp: function( a, b ){
-
+        this[a] = b;
     },
     getClass: function( a ){
         return this.classList.contains( a );
@@ -56,7 +56,7 @@ extend(Element, Document).with({
         }
     },
     toggleProp: function( a, b ){
-        if( this.getAttr( a ) == b ){
+        if( this.getProp( a ) == b ){
             this.removeProp( a );
         } else {
             this.setProp( a, b );
@@ -87,6 +87,29 @@ extend(Element, Document).with({
             };
         }
         this.dispatchEvent( new CustomEvent( eventType, params ) );
+    },
+    load: function( url, success, error ){
+        if( typeof success == 'undefined' ){
+            success = function(){}
+        }
+        if( typeof success == 'undefined' ){
+            error = function(){}
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open( 'get', url );
+        xhr.el = this;
+        xhr.onreadystatechange = function( event ){
+            if( this.readyState === 4 ){
+                if( this.status === 200 ){
+                    this.el.innerHTML = this.response;
+                    success.call( this.el, this );
+                } else {
+                    error.call( this.el, this );
+                }
+            }
+        }
+        xhr.onerror = error;
+        xhr.send();
     }
 });
 
