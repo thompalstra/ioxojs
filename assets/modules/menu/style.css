@@ -1,0 +1,38 @@
+menu{
+    padding: 0;
+    margin: 0;
+}
+menu.default{
+    height: 60px;
+    line-height: 60px;
+}
+
+menu items{
+
+}
+menu.default items title,
+menu.default items button{
+    height: 60px;
+    padding: 0 10px;
+
+    min-height: 60px;
+    min-width: 60px;
+
+    display: block;
+}
+
+menu.default items title{
+    box-sizing: border-box;
+}
+
+menu[items="1"] title{  width: 100%;    }
+menu[items="2"] title{  width: calc( 100% - 60px );    }
+menu[items="3"] title{  width: calc( 100% - 120px );   }
+menu[items="4"] title{  width: calc( 100% - 180px );   }
+
+menu.default.top + content.default{
+    top: 60px;
+}
+menu.default.bottom + content.default{
+    bottom: 60px;
+}

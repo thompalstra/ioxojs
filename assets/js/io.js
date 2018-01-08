@@ -55,18 +55,35 @@ extend( nav ).with({
         queue: [],
         back: function(){
             if( nav.history.queue.length > 1 ){
-                console.log('go bacjk');
                 var last = nav.history.queue.pop();
                 var previous = nav.history.queue.pop();
 
-                nav.load(previous.params, previous.success, previous.error);
+                nav.load(previous.params, previous.success, previous.error, previous.data);
             }
         },
         forward: function( obj ){
             nav.history.queue.push(obj);
         }
     },
-    load: function( params, success, error ){
+    listen: function( eventType, callable ){
+        this[ "on" + eventType ] = callable;
+    },
+    dispatch: function( eventType, params ){
+
+        if( typeof params == 'undefined' ){
+            params = {
+                cancelable: true,
+                bubbles: true
+            };
+        }
+
+        var event = new CustomEvent( eventType, params );
+
+        if( typeof this[ "on" + event.type ] == 'function' ){
+            this[ "on" + event.type ].call( this, event );
+        }
+    },
+    load: function( params, success, error, data ){
 
         if( typeof success == 'undefined' ){
             success = function(){}
@@ -76,23 +93,45 @@ extend( nav ).with({
             error = function(){}
         }
 
-        var wrapper = document.createElement('wrapper');
-        var layout = wrapper.appendChild( document.createElement('layout') );
-        layout.load( params.layout, function( res ){
-            var content = this.findOne('content');
-            content.load( params.view, function(res){
+        if( typeof data == 'undefined' ){
+            data = {};
+        }
 
-                wrapper.findAll('script').forEach( function( el ){
+        window['data'] = data;
+
+        var layout = document.createElement('layout');
+        var documentLayout = document.findOne('layout');
+
+        if( documentLayout instanceof Element ){
+
+        } else {
+            throw new Error('Could not find any element matching LAYOUT tags');
+        }
+
+        layout.load( params.layout, function( res ){
+            var view = this.findOne('view');
+            view.load( params.view, function(res){
+
+                layout.findAll('script').forEach( function( el ){
                     eval( el.innerHTML );
                 } )
 
-                document.body.innerHTML = wrapper.innerHTML;
+
+
+                documentLayout.innerHTML = layout.innerHTML;
                 nav.history.forward({
                     params: params,
                     success: success,
-                    error: error
+                    error: error,
+                    data: data
                 });
 
+                nav.view = {
+                    layout: params.layout,
+                    view: params.view,
+                    data: data
+                }
+                nav.dispatch('ready');
                 success.call( this, null );
             }, function( err ){
                 error.call( this, err );
@@ -137,6 +176,12 @@ extend( listener ).with({
 });
 
 extend( io ).with({
+    title: function( str ){
+        document.querySelectorAll('title').forEach( function( el ){
+            console.log( el );
+            el.innerHTML = str;
+        } )
+    },
     serialize: function( object ){
         var params = [];
         Object.walk( object, function( item, index ){

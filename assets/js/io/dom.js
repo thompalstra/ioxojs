@@ -10,56 +10,52 @@ extend(Element, Document).with({
     findById: function( query ){
         return this.getElementById( query );
     },
-    setClass: function( a, b ){
+    addClass: function( a ){
         this.classList.add( a );
     },
-    setAttr: function( a, b ){
-        this.setAttribute( a, b );
-    },
-    setProp: function( a, b ){
-        this[a] = b;
-    },
-    getClass: function( a ){
-        return this.classList.contains( a );
-    },
-    getAttr: function( a, b ){
-        return this.getAttribute( a );
-    },
-    getProp: function( a, b ){
-        if( this.hasOwnProperty(a) ){
-            return this[a];
-        } else {
-            return null;
-        }
-    },
-    removeClass: function( a, b ){
+    removeClass: function( a ){
         this.classList.remove( a );
     },
-    removeAttr: function( a, b ){
-        this.removeAttribute( a );
+    hasClass: function( a ){
+        return this.classList.contains( a );
     },
-    removeProp: function( a, b ){
-        delete this[a];
+    attr: function( a, b ){
+        if( b === null ){
+            this.removeAttribute(a);
+        } else if( typeof b == 'undefined' ){
+            return this.getAttribute(a);
+        } else {
+            this.setAttribute(a, b);
+        }
     },
-    toggleClass: function( a, b ){
-        if( this.getClass( a ) ){
+    prop: function( a, b ){
+        if( b === null ){
+            delete this[a];
+        } else if( typeof b == 'undefined' ){
+            return this[a];
+        } else {
+            this[a] = b;
+        }
+    },
+    toggleClass: function( a ){
+        if( this.hasClass( a ) ){
             this.removeClass( a );
         } else {
-            this.setClass( a );
+            this.addClass( a );
         }
     },
     toggleAttr: function( a, b ){
-        if( this.getAttr( a ) == b ){
-            this.removeAttr( a );
+        if( this.attr( a ) == b ){
+            this.attr( a, null );
         } else {
-            this.setAttr( a, b );
+            this.attr( a, b );
         }
     },
     toggleProp: function( a, b ){
-        if( this.getProp( a ) == b ){
-            this.removeProp( a );
+        if( this.prop( a ) == b ){
+            this.prop( a, null );
         } else {
-            this.setProp( a, b );
+            this.prop( a, b );
         }
     },
     listen: function( a, b, c, d ){
@@ -124,3 +120,42 @@ extend(HTMLCollection).with({
 document.listen('DOMContentLoaded', function(e){
     document.dispatch( 'loaded' );
 } );
+document.listen('click', '[io-on="click"]', function( originalEvent ){
+    var onTrigger = this.attr('io-on-trigger');
+
+    console.log(this);
+
+    var params = this.attr('io-params');
+
+    if( typeof params == 'undefined' ){
+        params = {};
+    } else {
+        params = JSON.parse( params );
+    }
+
+    var arg = [];
+
+    for(var i in params){
+        arg.push(params[i]);
+    }
+
+    if( typeof window[onTrigger] == 'function' ){
+        window[onTrigger].apply( this, arg );
+    } else if(onTrigger.indexOf('.') > -1) {
+        var split = onTrigger.split('.');
+        var instance = undefined;
+
+        for(i=0;i<split.length;i++){
+            var part = split[i];
+            if( window[ part ] ){
+                instance = window[part];
+            } else if( instance[ part ] ){
+                instance = instance[part];
+            }
+
+            if( typeof instance == 'function' ){
+                instance.apply( this, arg );
+            }
+        }
+    }
+});

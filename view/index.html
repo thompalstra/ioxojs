@@ -1,3 +1,18 @@
-<h2>index</h2>
-<a href="view/account.html">account</a>
-<a href="view/product/categories.html">product categories</a>
+<menu class='default fixed top right left' items="2">
+    <items>
+        <button class='default pull-left' io-on="click" io-on-trigger="sidebar.toggle" io-params='{"sidebar":"sidebar"}'>
+            <i class="material-icons">menu</i>
+        </button>
+        <title class='default pull-left' io-on="click" io-on-trigger="test"></title>
+    </items>
+</menu>
+<content class='default fixed top right bottom left'>
+    <h2>index</h2>
+    <a href="view/account.html">account</a>
+    <a href="view/product/categories.html" io-data='{"categoryId":2,"herp":"derp"}'>product categories</a>
+</content>
+<script>
+    nav.listen('ready', function( event ){
+        io.title('Welcome');
+    });
+</script>
