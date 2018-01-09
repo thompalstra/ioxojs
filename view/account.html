@@ -1,3 +1,46 @@
-<h2>account</h2>
-<a href="view/index.html">home</a>
-<a href="view/product/categories.html" io-data='{"categoryId":1,"herp":"derp"}'>product categories</a>
+<sidebar class='default'>
+    <ul options class='default'>
+        <li option io-on="click" io-on-trigger="sidebar.toggle" io-params='{"sidebar":"sidebar"}'>
+            <i class="material-icons pull-left icon">close</i> Close
+        </li>
+        <li option io-on="click" io-on-trigger="nav.load" io-params='{"params":{"view":"view/product/categories.html","layout":"layout/main.html"}}'>
+            <i class="material-icons pull-left icon">list</i> Categories
+        </li>
+        <li option io-on="click" io-on-trigger="nav.load" io-params='{"params":{"view":"view/account.html","layout":"layout/main.html"}}'>
+            <i class="material-icons pull-left icon">perm_identity</i> Account
+            <ul options>
+                <li option>Settings</li>
+                <li option>Information</li>
+                <li option>Billing</li>
+            </ul>
+
+        </li>
+    </ul>
+</sidebar>
+<backdrop></backdrop>
+<menu class='default fixed top right left' items="2">
+    <items>
+        <button class='default pull-left' io-on="click" io-on-trigger="sidebar.toggle" io-params='{"sidebar":"sidebar"}'>
+            <i class="material-icons pull-left icon">menu</i>
+        </button>
+        <title class='default pull-left' io-on="click" io-on-trigger="test"></title>
+    </items>
+</menu>
+<content class='default fixed top right bottom left'>
+    <ul options="" class="default">
+            <li option="" io-on="click" io-on-trigger="sidebar.toggle" io-params="{&quot;sidebar&quot;:&quot;sidebar&quot;}">
+                Settings
+            </li>
+            <li option="" io-on="click" io-on-trigger="nav.load" io-params="{&quot;params&quot;:{&quot;view&quot;:&quot;view/product/categories.html&quot;,&quot;layout&quot;:&quot;layout/main.html&quot;}}">
+                Information
+            </li>
+            <li option="" io-on="click" io-on-trigger="nav.load" io-params="{&quot;params&quot;:{&quot;view&quot;:&quot;view/account.html&quot;,&quot;layout&quot;:&quot;layout/main.html&quot;}}">
+                Billing
+            </li>
+        </ul>
+</content>
+<script>
+    nav.listen('ready', function( event ){
+        io.title('Account');
+    });
+</script>

@@ -53,15 +53,10 @@ window['nav'] = function( arg ){}
 extend( nav ).with({
     history: {
         queue: [],
-        back: function(){
-            if( nav.history.queue.length > 1 ){
-                var last = nav.history.queue.pop();
-                var previous = nav.history.queue.pop();
-
-                nav.load(previous.params, previous.success, previous.error, previous.data);
-            }
-        },
         forward: function( obj ){
+            if( obj.params.view == 'view/index.html' && obj.params.layout == 'layout/main.html' ){
+                nav.history.queue = [];
+            }
             nav.history.queue.push(obj);
         }
     },
@@ -83,7 +78,17 @@ extend( nav ).with({
             this[ "on" + event.type ].call( this, event );
         }
     },
+    back: function(){
+        if( nav.history.queue.length > 1 ){
+            var last = nav.history.queue.pop();
+            var previous = nav.history.queue.pop();
+
+            nav.load(previous.params, previous.success, previous.error, previous.data);
+        }
+    },
     load: function( params, success, error, data ){
+
+        console.log(params);
 
         if( typeof success == 'undefined' ){
             success = function(){}
@@ -115,8 +120,6 @@ extend( nav ).with({
                 layout.findAll('script').forEach( function( el ){
                     eval( el.innerHTML );
                 } )
-
-
 
                 documentLayout.innerHTML = layout.innerHTML;
                 nav.history.forward({

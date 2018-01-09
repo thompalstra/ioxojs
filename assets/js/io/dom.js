@@ -120,42 +120,50 @@ extend(HTMLCollection).with({
 document.listen('DOMContentLoaded', function(e){
     document.dispatch( 'loaded' );
 } );
-document.listen('click', '[io-on="click"]', function( originalEvent ){
-    var onTrigger = this.attr('io-on-trigger');
 
-    console.log(this);
+extend( io ).with({
+    eventHandler: function( event, params ){
+        var onTrigger = this.attr('io-on-trigger');
 
-    var params = this.attr('io-params');
 
-    if( typeof params == 'undefined' ){
-        params = {};
-    } else {
-        params = JSON.parse( params );
-    }
 
-    var arg = [];
+        var params = this.attr('io-params');
 
-    for(var i in params){
-        arg.push(params[i]);
-    }
+        if( typeof params == 'undefined' ){
+            params = {};
+        } else {
+            params = JSON.parse( params );
+        }
 
-    if( typeof window[onTrigger] == 'function' ){
-        window[onTrigger].apply( this, arg );
-    } else if(onTrigger.indexOf('.') > -1) {
-        var split = onTrigger.split('.');
-        var instance = undefined;
 
-        for(i=0;i<split.length;i++){
-            var part = split[i];
-            if( window[ part ] ){
-                instance = window[part];
-            } else if( instance[ part ] ){
-                instance = instance[part];
-            }
 
-            if( typeof instance == 'function' ){
-                instance.apply( this, arg );
+        var arg = [];
+
+        for(var i in params){
+            arg.push(params[i]);
+        }
+
+        if( typeof window[onTrigger] == 'function' ){
+            window[onTrigger].apply( this, arg );
+        } else if(onTrigger.indexOf('.') > -1) {
+            var split = onTrigger.split('.');
+            var instance = undefined;
+            for(i=0;i<split.length;i++){
+                var part = split[i];
+                if( window[ part ] ){
+                    instance = window[part];
+                } else if( instance[ part ] ){
+                    instance = instance[part];
+                }
+
+                if( typeof instance == 'function' ){
+                    instance.apply( this, arg );
+                }
             }
         }
     }
+});
+
+document.listen('click', '[io-on="click"]', function( originalEvent ){
+    return io.eventHandler.call( this, event );
 });

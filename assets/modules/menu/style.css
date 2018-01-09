@@ -3,8 +3,12 @@ menu{
     margin: 0;
 }
 menu.default{
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
+
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
 }
 
 menu items{
@@ -12,13 +16,17 @@ menu items{
 }
 menu.default items title,
 menu.default items button{
-    height: 60px;
+    height: 50px;
     padding: 0 10px;
 
-    min-height: 60px;
-    min-width: 60px;
+    min-height: 50px;
+    min-width: 50px;
 
     display: block;
+}
+
+menu.default items button .icon{
+    min-width: 30px;
 }
 
 menu.default items title{
@@ -26,13 +34,13 @@ menu.default items title{
 }
 
 menu[items="1"] title{  width: 100%;    }
-menu[items="2"] title{  width: calc( 100% - 60px );    }
-menu[items="3"] title{  width: calc( 100% - 120px );   }
-menu[items="4"] title{  width: calc( 100% - 180px );   }
+menu[items="2"] title{  width: calc( 100% - 50px );    }
+menu[items="3"] title{  width: calc( 100% - 100px );   }
+menu[items="4"] title{  width: calc( 100% - 150px );   }
 
 menu.default.top + content.default{
-    top: 60px;
+    top: 50px;
 }
 menu.default.bottom + content.default{
-    bottom: 60px;
+    bottom: 50px;
 }

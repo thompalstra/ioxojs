@@ -1,7 +1,21 @@
+<sidebar class='default'>
+    <ul options class='default'>
+        <li option io-on="click" io-on-trigger="sidebar.toggle" io-params='{"sidebar":"sidebar"}'>
+            <i class="material-icons pull-left icon">close</i> Close
+        </li>
+        <li option io-on="click" io-on-trigger="nav.load" io-params='{"params":{"view":"view/product/categories.html","layout":"layout/main.html"}}'>
+            <i class="material-icons pull-left icon">list</i> Categories
+        </li>
+        <li option io-on="click" io-on-trigger="nav.load" io-params='{"params":{"view":"view/account.html","layout":"layout/main.html"}}'>
+            <i class="material-icons pull-left icon">perm_identity</i> Account
+        </li>
+    </ul>
+</sidebar>
+<backdrop></backdrop>
 <menu class='default fixed top right left' items="2">
     <items>
         <button class='default pull-left' io-on="click" io-on-trigger="sidebar.toggle" io-params='{"sidebar":"sidebar"}'>
-            <i class="material-icons">menu</i>
+            <i class="material-icons pull-left icon">menu</i>
         </button>
         <title class='default pull-left' io-on="click" io-on-trigger="test"></title>
     </items>

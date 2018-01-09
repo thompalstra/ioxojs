@@ -54,3 +54,61 @@ button.small{
 .left{
     left: 0;
 }
+i{
+    text-align: center;
+}
+i.icon{
+    min-width: 50px;
+    min-height: 50px;
+    line-height: 50px;
+
+}
+backdrop{
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+
+    background-color: rgba( 0, 0, 0, .5 );
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 250ms linear;
+}
+[show] + backdrop{
+    opacity: 1;
+    pointer-events: all;
+}
+
+
+ul[options]{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul[options] ul[options]{
+    margin: 0 -10px;
+}
+
+ul[options] ul[options] [option]{
+    /* min-height: 24px;
+    line-height: 24px;
+    height: 24px;
+    font-size: smaller; */
+}
+
+ul[options] [option]{
+    min-width: 100%;
+    min-height: 50px;
+    line-height: 50px;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+ul[options] [option] i{
+    min-height: 50px;
+    min-width: 50px;
+    line-height: 50px;
+    margin-left: -10px;
+}

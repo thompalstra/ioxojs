@@ -1,7 +1,19 @@
-<h2> product/categories </h2>
-<a href="view/account.html">account</a>
-<a href="view/index.html">home</a>
-<script>
-    console.log( data.categoryId );
-    console.log( nav.view );
-</script>
+
+
+<menu class='default fixed top right left' items="2">
+    <items>
+        <button class='default pull-left' io-on="click" io-on-trigger="nav.back" io-params='{}'>
+            <i class="material-icons pull-left icon">arrow_back</i>
+        </button>
+        <title class='default pull-left' io-on="click" io-on-trigger="test"></title>
+    </items>
+</menu>
+<content class='default fixed top right bottom left'>
+    <h2> product/categories </h2>
+    <a href="view/account.html">account</a>
+    <a href="view/index.html">home</a>
+    <script>
+        console.log( data.categoryId );
+        console.log( nav.view );
+    </script>
+</content>
