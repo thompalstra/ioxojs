@@ -1,0 +1,32 @@
+
+
+<menu class='default fixed top right left' items="2">
+    <items>
+        <button class='default pull-left' button-behaviour="flat" io-on="click" io-on-trigger="nav.back" io-params='{}'>
+            <i class="material-icons pull-left icon">arrow_back</i>
+        </button>
+        <title class='default pull-left' io-on="click" io-on-trigger="test"></title>
+    </items>
+</menu>
+<content class='default fixed top right bottom left'>
+    <div class='row'>
+        <control id='clock' type="clock">
+
+        </control>
+    </div>
+    <div class='row'>
+        <control type="options">
+            <items>
+                <item>Option</item>
+            </items>
+        </control>
+    </div>
+</content>
+<script>
+    nav.listen('ready', function( event ){
+        io.title('Controls');
+
+        new io.controls.clock( '#clock' );
+        new io.controls.options( '#clock' );
+    });
+</script>

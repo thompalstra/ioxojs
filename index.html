@@ -14,7 +14,10 @@
 
         <script>
             document.listen('loaded', function( event ){
-                var arguments = {};
+                var arguments = {
+                    modules: ['content', 'menu', 'sidebar'],
+                    controls: ['clock', 'options']
+                };
                 window.io.app.run(arguments, function( result ){
                     console.log('successfully started IO XML Origin application...');
                     nav.load({

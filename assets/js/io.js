@@ -14,6 +14,8 @@ window['io'].debug = function( message ){
     console.trace( message );
 }
 
+window['io'].controls = {};
+
 window['extend'] = function(){
     var extend = {};
     extend.list = arguments;
@@ -87,9 +89,6 @@ extend( nav ).with({
         }
     },
     load: function( params, success, error, data ){
-
-        console.log(params);
-
         if( typeof success == 'undefined' ){
             success = function(){}
         }
@@ -119,9 +118,8 @@ extend( nav ).with({
 
                 layout.findAll('script').forEach( function( el ){
                     eval( el.innerHTML );
-                } )
+                } );
 
-                documentLayout.innerHTML = layout.innerHTML;
                 nav.history.forward({
                     params: params,
                     success: success,
@@ -134,8 +132,13 @@ extend( nav ).with({
                     view: params.view,
                     data: data
                 }
+
+                documentLayout.innerHTML = layout.innerHTML;
+
                 nav.dispatch('ready');
+
                 success.call( this, null );
+
             }, function( err ){
                 error.call( this, err );
             } );
@@ -181,7 +184,6 @@ extend( listener ).with({
 extend( io ).with({
     title: function( str ){
         document.querySelectorAll('title').forEach( function( el ){
-            console.log( el );
             el.innerHTML = str;
         } )
     },

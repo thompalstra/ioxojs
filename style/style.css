@@ -17,26 +17,83 @@ html, body{
     text-align: center;
 }
 
+.row{
+    width: 100%;
+    display: inline-block;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1920px){
+    .col-xl12  {   width: 100%;        }
+    .col-xl1   {   width: 8.333334%    }
+}
+@media (min-width: 1200px){
+    .col-l12 {    width: 100%;       }
+    .col-l1   {   width: 8.333334%    }
+}
+@media (min-width: 768px){
+    .col-d12 {    width: 100%;       }
+    .col-d1   {   width: 8.333334%    }
+}
+@media (min-width: 640px){
+    .col-s12 {    width: 100%;       }
+    .col-s1   {   width: 8.333334%    }
+}
+@media (min-width: 320px){
+    .col-xs12 {    width: 100%;      }
+    .col-xs1    {   width: 8.333334%   }
+}
+
 button{
     border: 0;
     outline: 0;
-    background-color: #ddd;
-    color: #333;
     text-align: center;
     box-sizing: border-box;
+    background-color: transparent;
+    color: #333;
 }
 button.large{
     font-size: 24px;
 }
 button.default{
-    font-size: 18px;
-    min-width: 50px;
     height: 50px;
+    min-width: 50px;
     line-height: 50px;
-
+    padding: 0 25px;
 }
 button.small{
-    font-size: 12px;
+    height: 30px;
+    min-width: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+}
+
+button{
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+}
+
+[button-behaviour="flat"],
+[button-behaviour="flat-to-default"],
+[button-behaviour="default-to-flat"]:active{
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.0);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.0);
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.0);
+}
+
+[button-behaviour="default"],
+[button-behaviour="default-to-flat"],
+[button-behaviour="flat-to-default"]:active{
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+}
+
+.success{
+    background-color: #71BA51;
+    color: white;
 }
 
 .fixed{
@@ -77,38 +134,4 @@ backdrop{
 [show] + backdrop{
     opacity: 1;
     pointer-events: all;
-}
-
-
-ul[options]{
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-ul[options] ul[options]{
-    margin: 0 -10px;
-}
-
-ul[options] ul[options] [option]{
-    /* min-height: 24px;
-    line-height: 24px;
-    height: 24px;
-    font-size: smaller; */
-}
-
-ul[options] [option]{
-    min-width: 100%;
-    min-height: 50px;
-    line-height: 50px;
-    width: 100%;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-
-ul[options] [option] i{
-    min-height: 50px;
-    min-width: 50px;
-    line-height: 50px;
-    margin-left: -10px;
 }

@@ -1,9 +1,16 @@
-<link rel="stylesheet" href="assets/modules/menu/style.css"></link>
-<script type="text/javascript" src="assets/modules/menu/script.js"></script>
+<!-- <link rel="stylesheet" href="assets/modules/menu/style.css"></link> -->
+<!-- <script type="text/javascript" src="assets/modules/menu/script.js"></script> -->
 
-<link rel="stylesheet" href="assets/modules/content/style.css"></link>
+<!-- <link rel="stylesheet" href="assets/modules/content/style.css"></link> -->
 
-<link rel="stylesheet" href="assets/modules/sidebar/style.css"></link>
+<!-- <link rel="stylesheet" href="assets/modules/sidebar/style.css"></link> -->
+
+
+<!-- <link rel="stylesheet" href="assets/controls/options/style.css"></link> -->
+<!-- <script type="text/javascript" src="assets/controls/options/script.js"></script> -->
+
+<!-- <link rel="stylesheet" href="assets/controls/clock/style.css"></link> -->
+<!-- <script type="text/javascript" src="assets/controls/clock/script.js"></script> -->
 
 <script>
 
@@ -11,7 +18,36 @@
 <style>
 </style>
 
+<sidebar class='default'>
+    <control type="options">
+    <!-- <ul options class='default'> -->
+        <items>
+            <item option io-on="click" io-on-trigger="sidebar.toggle" io-params='{"sidebar":"sidebar"}'>
+                <i class="material-icons pull-left icon">close</i> Close
+            </item>
+            <item option io-on="click" io-on-trigger="nav.load" io-params='[{
+                "view":"view/index.html",
+                "layout":"layout/main.html"
+            }]'>
+                <i class="material-icons pull-left icon">home</i> Home
+            </item>
+            <item option io-on="click" io-on-trigger="nav.load" io-params='[{
+                "view":"view/demo/index.html",
+                "layout":"layout/main.html"
+            }]'>
+                <i class="material-icons pull-left icon">list</i> Demo
+            </item>
+            <item option io-on="click" io-on-trigger="nav.load" io-params='[{
+                "view":"view/account.html",
+                "layout":"layout/main.html"
+            }]'>
+                <i class="material-icons pull-left icon">perm_identity</i> Account
+            </item>
+        </items>
+    <!-- </ul> -->
+    </control>
+</sidebar>
+<backdrop></backdrop>
 
 <view>
-
 </view>

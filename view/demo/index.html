@@ -1,0 +1,35 @@
+
+
+<menu class='default fixed top right left' items="2">
+    <items>
+        <button class='default pull-left' button-behaviour="flat" io-on="click" io-on-trigger="nav.back" io-params='[]'>
+            <i class="material-icons pull-left icon">arrow_back</i>
+        </button>
+        <title class='default pull-left' io-on="click" io-on-trigger="test"></title>
+    </items>
+</menu>
+<content class='default fixed top right bottom left'>
+    <!-- <ul options class='default'> -->
+    <control type="options">
+        <items>
+            <item option io-on="click" io-on-trigger="nav.load" io-params='[{
+                "view":"view/demo/columns.html",
+                "layout":"layout/main.html"
+            }]'>
+                <i class="material-icons pull-left icon">view_column</i> Columns
+            </item>
+            <item option io-on="click" io-on-trigger="nav.load" io-params='[{
+                "view":"view/demo/controls.html",
+                "layout":"layout/main.html"
+            }]'>
+                <i class="material-icons pull-left icon">access_time</i> Controls
+            </item>
+        </items>
+    </control>
+    <!-- </ul> -->
+</content>
+<script>
+    nav.listen('ready', function( event ){
+        io.title('Demo');
+    });
+</script>
